@@ -19,7 +19,7 @@ $ npm install -g @pintawebware/squeezeimg
 $ squeezeimg COMMAND
 running command...
 $ squeezeimg (-v|--version|version)
-@pintawebware/squeezeimg/0.0.1 linux-x64 node-v14.16.0
+@pintawebware/squeezeimg/0.0.1 darwin-x64 node-v12.16.3
 $ squeezeimg --help [COMMAND]
 USAGE
   $ squeezeimg COMMAND
@@ -55,7 +55,7 @@ USAGE
   $ squeezeimg start
 
 OPTIONS
-  -d, --dir=dir        [default: /home/pinta/Projects/SqueezeIMG/squeezeimg]
+  -d, --dir=dir        [default: /Users/pintaweb/WebstormProjects/squeezeimg-cli]
   -m, --method=method  [default: compress]
   -q, --qlt=qlt        [default: 60]
   -r, --rename=rename
@@ -65,7 +65,7 @@ OPTIONS
   --version            show CLI version
 ```
 
-_See code: [src/commands/start.js](https://github.com/SqueezeIMG/squeezeimg/blob/v0.0.1/src/commands/start.js)_
+_See code: [src/commands/start.js](https://github.com/pintawebware/squeezeimg-cli/blob/v0.0.1/src/commands/start.js)_
 <!-- commandsstop -->
 * [`squeezeimg help [COMMAND]`](#squeezeimg-help-command)
 * [`squeezeimg start`](#squeezeimg-start)
