@@ -1,0 +1,54 @@
+{
+  "name": "@pintawebware/squeezeimg",
+  "version": "0.0.1",
+  "author": "Dima Ulianov",
+  "bin": {
+    "squeezeimg": "bin/run"
+  },
+  "bugs": {
+    "url": "https://github.com/SqueezeIMG/squeezeimg/issues"
+  },
+  "dependencies": {
+    "@oclif/command": "^1.8.0",
+    "@oclif/config": "^1.17.0",
+    "@oclif/plugin-help": "^3.2.2",
+    "request": "^2.88.2"
+  },
+  "devDependencies": {
+    "@oclif/dev-cli": "^1.26.0",
+    "globby": "^10.0.2"
+  },
+  "engines": {
+    "node": ">=8.0.0"
+  },
+  "files": [
+    "/bin",
+    "/npm-shrinkwrap.json",
+    "/oclif.manifest.json",
+    "/src"
+  ],
+  "homepage": "https://github.com/SqueezeIMG/squeezeimg",
+  "keywords": [
+    "oclif"
+  ],
+  "license": "MIT",
+  "main": "src/index.js",
+  "oclif": {
+    "commands": "./src/commands",
+    "bin": "squeezeimg",
+    "plugins": [
+      "@oclif/plugin-help"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SqueezeIMG/squeezeimg.git"
+  },
+  "scripts": {
+    "postpack": "rm -f oclif.manifest.json",
+    "prepack": "oclif-dev readme && oclif-dev manifest && oclif-dev readme",
+    "test": "echo NO TESTS",
+    "version": "oclif-dev readme && git add README.md"
+  },
+  "description": "squeezeimg ========== The Squeezeimg-cli is destined to optimize unlimited images without any visible loss in quality. Using the Squeezeimg-cli you can easily minify the size of all your images, speed up loading of your websites and applications. You can compress your images of such formats - .png, .jpg/.jpeg, .gif, .svg, .bmp, .tiff. Also allows you to convert your images to webP and jp2 format. Try the functions right now. To do this, go to https://squeezeimg.com/."
+}
