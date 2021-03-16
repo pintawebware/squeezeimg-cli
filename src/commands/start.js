@@ -7,6 +7,8 @@ const PLUGIN_NAME = 'squeezeimg-cli';
 const URL = 'https://api.squeezeimg.com/plugin'; 
 const EXTENSIONS = ['.jpg','.png','.svg','.jpeg','.jp2','.gif','.tiff','.bmp','.PNG','.JPEG','.GIF','.SVG','.TIFF','.BMP'];
 
+let ERROR_TARIFF = false;
+
 const startOpti = async (dir, flags) => {
   let files = fs.readdirSync(dir);
     for (let f of files) {
@@ -20,7 +22,7 @@ const startOpti = async (dir, flags) => {
 
 const run_opti = async (file, options) =>  {
   return new Promise((resolve) => {
-    if( EXTENSIONS.includes(`.${file.split('.').pop()}`)) {
+    if( EXTENSIONS.includes(`.${file.split('.').pop()}`) && !ERROR_TARIFF) {
       let data = fs.readFileSync(file, { encoding:'binary' });
       let req = request.post({ url:URL, encoding:'binary'}, (err, resp, body) => {
         let filename = file;
@@ -39,8 +41,13 @@ const run_opti = async (file, options) =>  {
               let res = {};
               try {
                   res = JSON.parse(str);
+                  if(res.eventObj === 'tariff') {
+                     ERROR_TARIFF = true; 
+                     console.log(`${PLUGIN_NAME} error: ${res.error || res.message || res.error.details[0].message || str}`); 
+                     process.exit();
+                  }
               } catch(err) {}
-              console.log(`${PLUGIN_NAME} error: ${res.error.message || res.message || res.error.details[0].message || str}`); 
+              console.log(`${PLUGIN_NAME} error: ${res.error || res.message || res.error.details[0].message || str}`); 
           }
           resolve();
       });

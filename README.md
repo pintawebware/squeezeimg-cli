@@ -54,7 +54,7 @@ USAGE
   $ squeezeimg start
 
 OPTIONS
-  -d, --dir=dir        [default: /Users/pintaweb/WebstormProjects/squeezeimg-cli]
+  -d, --dir=dir        [default: installing folder]
   -m, --method=method  [default: compress]
   -q, --qlt=qlt        [default: 60]
   -r, --rename=rename
@@ -66,37 +66,6 @@ OPTIONS
 
 _See code: [src/commands/start.js](https://github.com/pintawebware/squeezeimg-cli/blob/v0.0.1/src/commands/start.js)_
 <!-- commandsstop -->
-* [`squeezeimg help [COMMAND]`](#squeezeimg-help-command)
-* [`squeezeimg start`](#squeezeimg-start)
 
-## `squeezeimg help [COMMAND]`
 
-display help for squeezeimg
 
-```
-USAGE
-  $ squeezeimg help [COMMAND]
-
-ARGUMENTS
-  COMMAND  command to show help for
-
-OPTIONS
-  --all  see all commands in CLI
-```
-
-## `squeezeimg start`
-
-```
-USAGE
-  $ squeezeimg start
-
-OPTIONS
-  -d, --dir=dir        [default: /home/pinta/Projects/SqueezeIMG/squeezeimg]
-  -m, --method=method  [default: compress]
-  -q, --qlt=qlt        [default: 60]
-  -r, --rename=rename
-  -t, --token=token
-  -t, --to=to          [default: webp]
-  --help               show CLI help
-  --version            show CLI version
-```
