@@ -1,12 +1,12 @@
 {
   "name": "@pintawebware/squeezeimg",
-  "version": "0.0.1",
-  "author": "Dima Ulianov",
+  "version": "0.0.2",
+  "author": "pintawebware",
   "bin": {
     "squeezeimg": "bin/run"
   },
   "bugs": {
-    "url": "https://github.com/SqueezeIMG/squeezeimg/issues"
+    "url": "https://github.com/pintawebware/squeezeimg-cli/issues"
   },
   "dependencies": {
     "@oclif/command": "^1.8.0",
@@ -27,7 +27,7 @@
     "/oclif.manifest.json",
     "/src"
   ],
-  "homepage": "https://github.com/SqueezeIMG/squeezeimg",
+  "homepage": "https://github.com/pintawebware/squeezeimg-cli",
   "keywords": [
     "oclif"
   ],
@@ -42,7 +42,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/SqueezeIMG/squeezeimg.git"
+    "url": "git+https://github.com/pintawebware/squeezeimg-cli.git"
   },
   "scripts": {
     "postpack": "rm -f oclif.manifest.json",
