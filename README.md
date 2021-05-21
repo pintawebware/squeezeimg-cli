@@ -13,6 +13,7 @@ Try the functions right now. To do this, go to https://squeezeimg.com/.
 <!-- tocstop -->
 # Usage
 <!-- usage -->
+First install Node.js and npm. You can do it here https://nodejs.org/ru/download/package-manager/
 ```sh-session
 $ npm install -g @pintawebware/squeezeimg
 $ squeezeimg COMMAND
