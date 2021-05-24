@@ -22,9 +22,9 @@ const startOpti = async (dir, flags) => {
 
 const run_opti = async (file, options) =>  {
   return new Promise((resolve) => {
-    if( EXTENSIONS.includes(`.${file.split('.').pop()}`) && !ERROR_TARIFF) {
-      let data = fs.readFileSync(file, { encoding:'binary' });
-      let req = request.post({ url:URL, encoding:'binary'}, (err, resp, body) => {
+    if( EXTENSIONS.includes(`.${file.split('.').pop()}`)) {
+      let data = fs.readFileSync(file);
+      let req = request.post({ url:URL, encoding: 'binary' }, (err, resp, body) => {
         let filename = file;
           if (err) {
               console.log(`${PLUGIN_NAME} error: ${err}`);
@@ -33,8 +33,7 @@ const run_opti = async (file, options) =>  {
                 filename = resp.headers["content-disposition"].split('=').pop().replace(/"/g,'');
               }
               filename = filename.replace(path.extname(filename), path.extname(resp.headers["content-disposition"].split('=').pop().replace(/"/g,'')));
-              let resData = Buffer.from(body, 'binary');
-              fs.writeFileSync(filename, resData, {encoding: 'binary'});
+              fs.writeFileSync(filename, body, {encoding: 'binary'});
               console.log(`${PLUGIN_NAME} optimize: ${filename}`)
           } else if( resp.statusCode > 200 ){
               let str = Buffer.from(body, 'binary').toString();
@@ -59,7 +58,9 @@ const run_opti = async (file, options) =>  {
         formData.append('method', options.method || 'compress');
         formData.append('file', data, { filename: file.split('/').pop() });
         formData.append('to', options.to || 'webp');
-    }    
+    } else {
+      resolve();
+    }   
   })
 }   
 
