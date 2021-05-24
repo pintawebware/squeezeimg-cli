@@ -1,6 +1,6 @@
 {
   "name": "@pintawebware/squeezeimg",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "author": "pintawebware",
   "bin": {
     "squeezeimg": "bin/run"

@@ -19,7 +19,7 @@ $ npm install -g @pintawebware/squeezeimg
 $ squeezeimg COMMAND
 running command...
 $ squeezeimg (-v|--version|version)
-@pintawebware/squeezeimg/0.0.1 darwin-x64 node-v12.16.3
+@pintawebware/squeezeimg/0.0.3 darwin-x64 node-v12.16.3
 $ squeezeimg --help [COMMAND]
 USAGE
   $ squeezeimg COMMAND
