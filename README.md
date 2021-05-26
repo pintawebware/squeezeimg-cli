@@ -53,7 +53,12 @@ _See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v3.2.2
 
 ```
 USAGE
-  $ squeezeimg start
+  To start compress use this command:
+  $ squeezeimg start -d /your/directory -t YOUR_TOKEN
+
+  To start convert, use this command:
+  $ squeezeimg start -d /your/directory -t YOUR_TOKEN -m convert -to webp/jp2
+
 
 OPTIONS
   -d, --dir=dir        [default: /home/pinta/Projects/SqueezeIMG/squeezeimg]
@@ -84,21 +89,4 @@ ARGUMENTS
 
 OPTIONS
   --all  see all commands in CLI
-```
-
-## `squeezeimg start`
-
-```
-USAGE
-  $ squeezeimg start
-
-OPTIONS
-  -d, --dir=dir        [default: /home/pinta/Projects/SqueezeIMG/squeezeimg]
-  -m, --method=method  [default: compress]
-  -q, --qlt=qlt        [default: 60]
-  -r, --rename=rename
-  -t, --token=token
-  -t, --to=to          [default: webp]
-  --help               show CLI help
-  --version            show CLI version
 ```

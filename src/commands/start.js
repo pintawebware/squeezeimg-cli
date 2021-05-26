@@ -38,8 +38,10 @@ const run_opti = async (file, options) =>  {
               let res = {};
               try {
                   res = JSON.parse(str);
-              } catch(err) {}
-              console.log(`${PLUGIN_NAME} error: ${res.error.message || res.message || res.error.details[0].message || str}`); 
+              } catch(err) {
+                console.log(`${PLUGIN_NAME} error: ${err}`);
+              }
+               
           }
           resolve();
       });
@@ -71,28 +73,34 @@ SQUEEZEIMG.flags = {
   dir: flags.string({
     char: 'd',
     default: process.cwd(),
+    description: 'USAGE: <$ squeezeimg start -d /your/directory -t YOUR_TOKEN> ---> set directory to compress/convert your images, default compress'
   }),
   // Enter token with --token= or -t=
   token: flags.string({
     char: 't',
     default: '',
+    description: 'USAGE: <$ squeezeimg start -d /your/directory -t YOUR_TOKEN> ---> token you need to start process, find it here https://squeezeimg.com/account/api'
   }),
   qlt: flags.string({
     char: 'q',
     default: 60,
+    description: 'USAGE: <$ squeezeimg start -d /your/directory -t YOUR_TOKEN -q [0-100]> ---> set quality, default 60'
   }),
   method: flags.string({
     char: 'm',
     default: 'compress',
+    description: 'USAGE: <$ squeezeimg start -d /your/directory -t YOUR_TOKEN -m [compress/convert]> ---> method, default compress'
   }),
   to: flags.string({
     char: 'to',
     default: 'webp',
+    description: 'USAGE: <$ squeezeimg start -d /your/directory -t YOUR_TOKEN -m convert -to [webp/jp2]> ---> format you want to recieve, default webP'
   }),
-  rename: flags.string({
-    char: 'rnm',
-    default: false,
-  })
+  // rename: flags.string({
+  //   char: 'rnm',
+  //   default: false,
+  //   description: 'USAGE: <$ squeezeimg start -d /your/directory -t YOUR_TOKEN -m convert -to [webp/jp2] -rnm [true/false]> ---> rename option, default false'
+  // })
 }
 
 module.exports = SQUEEZEIMG;
