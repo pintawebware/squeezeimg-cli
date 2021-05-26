@@ -21,8 +21,9 @@ const startOpti = async (dir, flags) => {
 const run_opti = async (file, options) =>  {
   return new Promise((resolve) => {
     if( EXTENSIONS.includes(`.${file.split('.').pop()}`)) {
-      let data = fs.readFileSync(file);
-      let req = request.post({ url:URL, encoding: 'binary' }, (err, resp, body) => {
+      try {
+        let data = fs.readFileSync(file);
+        let req = request.post({ url:URL, encoding: 'binary' }, (err, resp, body) => {
         let filename = file;
           if (err) {
               console.log(`${PLUGIN_NAME} error: ${err}`);
@@ -53,6 +54,10 @@ const run_opti = async (file, options) =>  {
         formData.append('method', options.method || 'compress');
         formData.append('file', data, { filename: file.split('/').pop() });
         formData.append('to', options.to || 'webp');
+      } catch(err) {
+        console.log(`${PLUGIN_NAME} error: ${err}`);
+        resolve();
+      }
     } else {
       resolve();
     }   
