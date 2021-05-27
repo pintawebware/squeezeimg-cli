@@ -20,21 +20,21 @@ const startOpti = async (dir, flags) => {
 
 const run_opti = async (file, options) =>  {
   return new Promise((resolve) => {
-    if( EXTENSIONS.includes(`.${file.split('.').pop()}`)) {
+    if (EXTENSIONS.includes(`.${file.split('.').pop()}`)) {
       try {
         let data = fs.readFileSync(file);
         let req = request.post({ url:URL, encoding: 'binary' }, (err, resp, body) => {
         let filename = file;
           if (err) {
               console.log(`${PLUGIN_NAME} error: ${err}`);
-          } else if(resp.statusCode === 200) {
-              if(options.rename){
-                filename = resp.headers["content-disposition"].split('=').pop().replace(/"/g,'');
+          } else if (resp.statusCode === 200) {
+              if (options.rename) {
+                filename = (path.dirname(file) + '/' + resp.headers["content-disposition"].split('=').pop().replace(/"/g,''));
               }
               filename = filename.replace(path.extname(filename), path.extname(resp.headers["content-disposition"].split('=').pop().replace(/"/g,'')));
               fs.writeFileSync(filename, body, {encoding: 'binary'});
-              console.log(`${PLUGIN_NAME} optimize: ${filename}`)
-          } else if( resp.statusCode > 200 ){
+              console.log(`${PLUGIN_NAME} optimize: ${filename}`);
+          } else if ( resp.statusCode > 200 ) {
               let str = Buffer.from(body, 'binary').toString();
               let res = {};
               try {
@@ -42,7 +42,6 @@ const run_opti = async (file, options) =>  {
               } catch(err) {
                 console.log(`${PLUGIN_NAME} error: ${err}`);
               }
-               
           }
           resolve();
       });
@@ -78,34 +77,34 @@ SQUEEZEIMG.flags = {
   dir: flags.string({
     char: 'd',
     default: process.cwd(),
-    description: 'USAGE: <$ squeezeimg start -d /your/directory -t YOUR_TOKEN> ---> set directory to compress/convert your images, default compress'
+    description: '[REQUIRED]\nUSAGE: <$ squeezeimg start -d /your/directory -t YOUR_TOKEN> \n------>   set directory to compress/convert your images, default compress'
   }),
   // Enter token with --token= or -t=
   token: flags.string({
     char: 't',
     default: '',
-    description: 'USAGE: <$ squeezeimg start -d /your/directory -t YOUR_TOKEN> ---> token you need to start process, find it here https://squeezeimg.com/account/api'
+    description: '[REQUIRED]\nUSAGE: <$ squeezeimg start -d /your/directory -t YOUR_TOKEN> \n------>   token you need to start process, find it here https://squeezeimg.com/account/api'
   }),
   qlt: flags.string({
     char: 'q',
     default: 60,
-    description: 'USAGE: <$ squeezeimg start -d /your/directory -t YOUR_TOKEN -q [0-100]> ---> set quality, default 60'
+    description: '[OPTIONAL]\nUSAGE: <$ squeezeimg start -d /your/directory -t YOUR_TOKEN -q [60/70/80]> \n------>   set quality, default 60'
   }),
   method: flags.string({
     char: 'm',
     default: 'compress',
-    description: 'USAGE: <$ squeezeimg start -d /your/directory -t YOUR_TOKEN -m [compress/convert]> ---> method, default compress'
+    description: '[OPTIONAL]\nUSAGE: <$ squeezeimg start -d /your/directory -t YOUR_TOKEN -m [compress/convert]> \n------>   method, default compress'
   }),
   to: flags.string({
     char: 'to',
     default: 'webp',
-    description: 'USAGE: <$ squeezeimg start -d /your/directory -t YOUR_TOKEN -m convert --to [webp/jp2]> ---> format you want to recieve, default webP'
+    description: '[OPTIONAL]\nUSAGE: <$ squeezeimg start -d /your/directory -t YOUR_TOKEN -m convert --to [webp/jp2]> \n------>   format you want to receive, default webP'
   }),
-  // rename: flags.string({
-  //   char: 'rnm',
-  //   default: false,
-  //   description: 'USAGE: <$ squeezeimg start -d /your/directory -t YOUR_TOKEN -m convert --to [webp/jp2] -rnm [true/false]> ---> rename option, default false'
-  // })
+  rename: flags.string({
+    char: 'r',
+    default: false,
+    description: '[OPTIONAL]\nUSAGE: <$ squeezeimg start -d /your/directory -t YOUR_TOKEN -m convert --to [webp/jp2] --rename [true/false]> \n------>   rename option, returns renamed image but original file stays saved, default false'
+  })
 }
 
 module.exports = SQUEEZEIMG;
