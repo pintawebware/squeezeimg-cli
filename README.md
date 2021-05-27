@@ -13,37 +13,33 @@ Try the functions right now. To do this, go to https://squeezeimg.com/.
 <!-- tocstop -->
 # Usage
 <!-- usage -->
-First install Node.js and npm. You can do it here https://nodejs.org/ru/download/package-manager/
+First install Node.js and npm. You can do it [here](https://nodejs.org/en/download/package-manager/).
 ```sh-session
 $ npm install -g @pintawebware/squeezeimg
-$ squeezeimg COMMAND
-running command...
 $ squeezeimg (-v|--version|version)
-@pintawebware/squeezeimg/0.0.4 darwin-x64 node-v12.16.3
-$ squeezeimg --help [COMMAND]
+@pintawebware/squeezeimg/0.0.5 linux-x64 node-v14.16.0
+$ squeezeimg (help|--help)
+$ squeezeimg (help|--help) start
 USAGE
-  $ squeezeimg COMMAND
+  $ squeezeimg start [OPTIONS]
 ...
 ```
 <!-- usagestop -->
 # Commands
 <!-- commands -->
-* [`squeezeimg help [COMMAND]`](#squeezeimg-help-command)
+* [`squeezeimg version`](#usage)
+* [`squeezeimg help start`](#squeezeimg-help-start)
 * [`squeezeimg start`](#squeezeimg-start)
 
-## `squeezeimg help [COMMAND]`
+## `squeezeimg help start`
 
-display help for squeezeimg
+Displays all options to start for squeezeimg.
+Includes descriptions and usage examples.
 
 ```
 USAGE
-  $ squeezeimg help [COMMAND]
+  $ squeezeimg help start
 
-ARGUMENTS
-  COMMAND  command to show help for
-
-OPTIONS
-  --all  see all commands in CLI
 ```
 
 _See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v3.2.2/src/commands/help.ts)_
@@ -56,24 +52,34 @@ USAGE
   $ squeezeimg start -d /your/directory -t YOUR_TOKEN
 
   To start convert, use this command:
-  $ squeezeimg start -d /your/directory -t YOUR_TOKEN -m convert -to webp/jp2
+  $ squeezeimg start -d /your/directory -t YOUR_TOKEN -m convert --to webp/jp2
+
+  To get full info about options, use this command:
+  $ squeezeimg help start
 
 
 OPTIONS
-  -d, --dir=dir        [default: installing folder]
+  -d, --dir=dir        [default: installed folder]
+                       [example: /your/directory/Pictures]
+
+  -t, --token=token    [example: qWe123rTy456uPi789] - Required
+
   -m, --method=method  [default: compress]
+                       [example: convert]
+
   -q, --qlt=qlt        [default: 60]
-  -r, --rename=rename
-  -t, --token=token
-  -t, --to=to          [default: webp]
+                       [example: 80]
+
+  -r, --rename=rename  [default: false]
+                       [example: true]
+
+  --to, --to=to        [default: webp]
+                       [example: jp2]
+
   --help               show CLI help
   --version            show CLI version
 ```
+_To get token, follow this [link](https://squeezeimg.com/account/api)_
 
-_See code: [src/commands/start.js](https://github.com/pintawebware/squeezeimg-cli/blob/v0.0.1/src/commands/start.js)_
+_See code: [src/commands/start.js](https://gitlab.com/kirians/squeezeimg-cli/-/blob/master/src/commands/start.js)_
 <!-- commandsstop -->
-
-
-OPTIONS
-  --all  see all commands in CLI
-```
