@@ -7,6 +7,8 @@ const PLUGIN_NAME = 'squeezeimg-cli';
 const URL = 'https://api.squeezeimg.com/plugin'; 
 const EXTENSIONS = ['.jpg','.png','.svg','.jpeg','.jp2','.gif','.tiff','.bmp','.PNG','.JPEG','.GIF','.SVG','.TIFF','.BMP'];
 
+let ERROR_TARIFF = false;
+
 const startOpti = async (dir, flags) => {
   let files = fs.readdirSync(dir);
     for (let f of files) {

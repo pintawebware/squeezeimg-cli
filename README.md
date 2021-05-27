@@ -7,7 +7,6 @@ Also allows you to convert your images to webP and jp2 format.
 Try the functions right now. To do this, go to https://squeezeimg.com/.
 
 
-
 <!-- toc -->
 * [Usage](#usage)
 * [Commands](#commands)
