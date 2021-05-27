@@ -57,7 +57,7 @@ USAGE
   $ squeezeimg start -d /your/directory -t YOUR_TOKEN
 
   To start convert, use this command:
-  $ squeezeimg start -d /your/directory -t YOUR_TOKEN -m convert -to webp/jp2
+  $ squeezeimg start -d /your/directory -t YOUR_TOKEN -m convert --to webp/jp2
 
 
 OPTIONS

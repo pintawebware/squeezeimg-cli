@@ -99,12 +99,12 @@ SQUEEZEIMG.flags = {
   to: flags.string({
     char: 'to',
     default: 'webp',
-    description: 'USAGE: <$ squeezeimg start -d /your/directory -t YOUR_TOKEN -m convert -to [webp/jp2]> ---> format you want to recieve, default webP'
+    description: 'USAGE: <$ squeezeimg start -d /your/directory -t YOUR_TOKEN -m convert --to [webp/jp2]> ---> format you want to recieve, default webP'
   }),
   // rename: flags.string({
   //   char: 'rnm',
   //   default: false,
-  //   description: 'USAGE: <$ squeezeimg start -d /your/directory -t YOUR_TOKEN -m convert -to [webp/jp2] -rnm [true/false]> ---> rename option, default false'
+  //   description: 'USAGE: <$ squeezeimg start -d /your/directory -t YOUR_TOKEN -m convert --to [webp/jp2] -rnm [true/false]> ---> rename option, default false'
   // })
 }
 
