@@ -48,6 +48,7 @@ _See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v3.2.2
 
 ```
 USAGE
+
   To start compress use this command:
   $ squeezeimg start -d /your/directory -t YOUR_TOKEN
 
