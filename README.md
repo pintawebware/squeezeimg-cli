@@ -14,33 +14,36 @@ Try the functions right now. To do this, go to https://squeezeimg.com/.
 <!-- tocstop -->
 # Usage
 <!-- usage -->
-First install Node.js and npm. You can do it [here](https://nodejs.org/en/download/package-manager/).
 ```sh-session
 $ npm install -g @pintawebware/squeezeimg
+$ squeezeimg COMMAND
+running command...
 $ squeezeimg (-v|--version|version)
-@pintawebware/squeezeimg/0.0.5 linux-x64 node-v14.16.0
-$ squeezeimg (help|--help)
-$ squeezeimg (help|--help) start
+@pintawebware/squeezeimg/0.0.6 linux-x64 node-v14.16.0
+$ squeezeimg --help [COMMAND]
 USAGE
-  $ squeezeimg start [OPTIONS]
+  $ squeezeimg COMMAND
 ...
 ```
 <!-- usagestop -->
 # Commands
 <!-- commands -->
-* [`squeezeimg version`](#usage)
-* [`squeezeimg help start`](#squeezeimg-help-start)
+* [`squeezeimg help [COMMAND]`](#squeezeimg-help-command)
 * [`squeezeimg start`](#squeezeimg-start)
 
-## `squeezeimg help start`
+## `squeezeimg help [COMMAND]`
 
-Displays all options to start for squeezeimg.
-Includes descriptions and usage examples.
+display help for squeezeimg
 
 ```
 USAGE
-  $ squeezeimg help start
+  $ squeezeimg help [COMMAND]
 
+ARGUMENTS
+  COMMAND  command to show help for
+
+OPTIONS
+  --all  see all commands in CLI
 ```
 
 _See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v3.2.2/src/commands/help.ts)_
@@ -49,39 +52,38 @@ _See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v3.2.2
 
 ```
 USAGE
-
-  To start compress use this command:
-  $ squeezeimg start -d /your/directory -t YOUR_TOKEN
-
-  To start convert, use this command:
-  $ squeezeimg start -d /your/directory -t YOUR_TOKEN -m convert --to webp/jp2
-
-  To get full info about options, use this command:
-  $ squeezeimg help start
-
+  $ squeezeimg start
 
 OPTIONS
-  -d, --dir=dir        [default: installed folder]
-                       [example: /your/directory/Pictures]
+  -d, --dir=dir        [default: /home/pinta/Projects/SqueezeIMG/squeezeimg] [REQUIRED]
+                       USAGE: <$ squeezeimg start -d /your/directory -t YOUR_TOKEN>
+                       ------>   set directory to compress/convert your images, default compress
 
-  -t, --token=token    [example: qWe123rTy456uPi789] - Required
+  -m, --method=method  [default: compress] [OPTIONAL]
+                       USAGE: <$ squeezeimg start -d /your/directory -t YOUR_TOKEN -m [compress/convert]>
+                       ------>   method, default compress
 
-  -m, --method=method  [default: compress]
-                       [example: convert]
+  -q, --qlt=qlt        [default: 60] [OPTIONAL]
+                       USAGE: <$ squeezeimg start -d /your/directory -t YOUR_TOKEN -q [60/70/80]>
+                       ------>   set quality, default 60
 
-  -q, --qlt=qlt        [default: 60]
-                       [example: 80]
+  -r, --rename=rename  [OPTIONAL]
+                       USAGE: <$ squeezeimg start -d /your/directory -t YOUR_TOKEN -m convert --to [webp/jp2] --rename
+                       [true/false]>
+                       ------>   rename option, returns renamed image but original file stays saved, default false
 
-  -r, --rename=rename  [default: false]
-                       [example: true]
+  -t, --token=token    [REQUIRED]
+                       USAGE: <$ squeezeimg start -d /your/directory -t YOUR_TOKEN>
+                       ------>   token you need to start process, find it here https://squeezeimg.com/account/api
 
-  --to, --to=to        [default: webp]
-                       [example: jp2]
+  -t, --to=to          [default: webp] [OPTIONAL]
+                       USAGE: <$ squeezeimg start -d /your/directory -t YOUR_TOKEN -m convert --to [webp/jp2]>
+                       ------>   format you want to receive, default webP
 
   --help               show CLI help
+
   --version            show CLI version
 ```
-_To get token, follow this [link](https://squeezeimg.com/account/api)_
 
-_See code: [src/commands/start.js](https://gitlab.com/kirians/squeezeimg-cli/-/blob/master/src/commands/start.js)_
+_See code: [src/commands/start.js](https://github.com/pintawebware/squeezeimg-cli/blob/v0.0.6/src/commands/start.js)_
 <!-- commandsstop -->
