@@ -30,7 +30,7 @@ const run_opti = async (file, options) =>  {
           if (err) {
               console.log(`${PLUGIN_NAME} error: ${err}`);
           } else if (resp.statusCode === 200) {
-              if (options.rename) {
+              if (options.rename === true) {
                 filename = (path.dirname(file) + '/' + resp.headers["content-disposition"].split('=').pop().replace(/"/g,''));
               }
               filename = filename.replace(path.extname(filename), path.extname(resp.headers["content-disposition"].split('=').pop().replace(/"/g,'')));
