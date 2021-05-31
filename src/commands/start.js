@@ -28,12 +28,13 @@ const run_opti = async (file, options) =>  {
           if (err) {
               console.log(`${PLUGIN_NAME} error: ${err}`);
           } else if (resp.statusCode === 200) {
-              if (options.rename === true) {
+              if (options.rename === true || options.rename === 'true') {
                 filename = (path.dirname(file) + '/' + resp.headers["content-disposition"].split('=').pop().replace(/"/g,''));
+              } else {
+                filename = filename.replace(path.extname(filename), path.extname(resp.headers["content-disposition"].split('=').pop().replace(/"/g,'')));
               }
-              filename = filename.replace(path.extname(filename), path.extname(resp.headers["content-disposition"].split('=').pop().replace(/"/g,'')));
-              fs.writeFileSync(filename, body, {encoding: 'binary'});
-              console.log(`${PLUGIN_NAME} optimize: ${filename}`);
+                fs.writeFileSync(filename, body, {encoding: 'binary'});
+                console.log(`${PLUGIN_NAME} optimize: ${filename}`);
           } else if ( resp.statusCode > 200 ) {
               let str = Buffer.from(body, 'binary').toString();
               let res = {};

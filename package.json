@@ -1,6 +1,6 @@
 {
   "name": "@pintawebware/squeezeimg",
-  "version": "0.0.7",
+  "version": "0.0.9",
   "author": "pintawebware",
   "bin": {
     "squeezeimg": "bin/run"
@@ -23,16 +23,15 @@
   },
   "files": [
     "/bin",
-    "/npm-shrinkwrap.json",
-    "/oclif.manifest.json",
     "/src"
   ],
-  "homepage": "https://github.com/pintawebware/squeezeimg-cli",
+  "homepage": "https://gitlab.com/kirians/squeezeimg-cli",
   "keywords": [
     "oclif"
   ],
   "license": "MIT",
   "main": "src/index.js",
+  "readme": "README.md",
   "oclif": {
     "commands": "./src/commands",
     "bin": "squeezeimg",
@@ -42,13 +41,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/pintawebware/squeezeimg-cli.git"
-  },
-  "scripts": {
-    "postpack": "rm -f oclif.manifest.json",
-    "prepack": "oclif-dev readme && oclif-dev manifest && oclif-dev readme",
-    "test": "echo NO TESTS",
-    "version": "oclif-dev readme && git add README.md"
+    "url": "git+https://gitlab.com/kirians/squeezeimg-cli.git"
   },
   "description": "squeezeimg ========== The Squeezeimg-cli is destined to optimize unlimited images without any visible loss in quality. Using the Squeezeimg-cli you can easily minify the size of all your images, speed up loading of your websites and applications. You can compress your images of such formats - .png, .jpg/.jpeg, .gif, .svg, .bmp, .tiff. Also allows you to convert your images to webP and jp2 format. Try the functions right now. To do this, go to https://squeezeimg.com/."
 }
