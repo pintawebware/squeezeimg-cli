@@ -18,7 +18,7 @@ First install Node.js and npm. You can do it [here](https://nodejs.org/en/downlo
 ```sh-session
 $ npm install -g @pintawebware/squeezeimg
 $ squeezeimg (-v|--version|version)
-@pintawebware/squeezeimg/0.0.9 linux-x64 node-v14.16.0
+@pintawebware/squeezeimg/0.0.10 linux-x64 node-v14.16.0
 $ squeezeimg (help|--help)
 $ squeezeimg (help|--help) start
 USAGE

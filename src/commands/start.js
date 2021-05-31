@@ -29,7 +29,9 @@ const run_opti = async (file, options) =>  {
               console.log(`${PLUGIN_NAME} error: ${err}`);
           } else if (resp.statusCode === 200) {
               if (options.rename === true || options.rename === 'true') {
-                filename = (path.dirname(file) + '/' + resp.headers["content-disposition"].split('=').pop().replace(/"/g,''));
+                filename = (path.dirname(file) + '/' + resp.headers["content-disposition"].split('=').pop().replace(/"/g,''));                 
+              } else if(fs.existsSync(filename.replace(path.extname(filename), path.extname(resp.headers["content-disposition"].split('=').pop().replace(/"/g,'')))) && options.method === 'convert') {
+                filename = (path.dirname(file) + '/' + path.parse(filename).base + path.extname(resp.headers["content-disposition"].split('=').pop().replace(/"/g,'')));
               } else {
                 filename = filename.replace(path.extname(filename), path.extname(resp.headers["content-disposition"].split('=').pop().replace(/"/g,'')));
               }
@@ -74,13 +76,11 @@ class SQUEEZEIMG extends Command {
 SQUEEZEIMG.flags = {
   version: flags.version(),
   help: flags.help(),
-  // Enter directory with --dir=/your/directory or -d=/your/directory
   dir: flags.string({
     char: 'd',
     default: process.cwd(),
     description: '[REQUIRED]\nUSAGE: <$ squeezeimg start -d /your/directory -t YOUR_TOKEN> \n------>   set directory to compress/convert your images, default compress'
   }),
-  // Enter token with --token= or -t=
   token: flags.string({
     char: 't',
     default: '',
