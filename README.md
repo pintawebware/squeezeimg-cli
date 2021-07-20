@@ -3,7 +3,7 @@ squeezeimg
 The Squeezeimg-cli is destined to optimize unlimited images without any visible loss in quality.
 Using the Squeezeimg-cli you can easily minify the size of all your images, speed up loading of your websites and applications.
 You can compress your images of such formats - .png, .jpg/.jpeg, .gif, .svg, .bmp, .tiff.
-Also allows you to convert your images to webP and jp2 format.
+Also allows you to convert your images to webP, avif and jp2 format.
 Try the functions right now. To do this, go to https://squeezeimg.com/.
 
 
@@ -17,7 +17,7 @@ First install Node.js and npm. You can do it [here](https://nodejs.org/en/downlo
 ```sh-session
 $ npm install -g @pintawebware/squeezeimg
 $ squeezeimg (-v|--version|version)
-@pintawebware/squeezeimg/0.0.10 linux-x64 node-v14.16.0
+@pintawebware/squeezeimg/0.0.11 linux-x64 node-v14.16.0
 $ squeezeimg (help|--help)
 $ squeezeimg (help|--help) start
 USAGE
@@ -53,7 +53,7 @@ USAGE
   $ squeezeimg start -d /your/directory -t YOUR_TOKEN
 
   To start convert, use this command:
-  $ squeezeimg start -d /your/directory -t YOUR_TOKEN -m convert --to webp/jp2
+  $ squeezeimg start -d /your/directory -t YOUR_TOKEN -m convert --to webp/jp2/avif
 
   To get full info about options, use this command:
   $ squeezeimg help start
@@ -76,6 +76,7 @@ OPTIONS
 
   --to, --to=to        [default: webp]
                        [example: jp2]
+                       [example: avif]
 
   --help               show CLI help
   --version            show CLI version
