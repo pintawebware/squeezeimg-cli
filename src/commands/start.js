@@ -27,8 +27,9 @@ const run_opti = async (file, options) =>  {
         let data = fs.readFileSync(file);
         let req = request.post({ url:URL, encoding: 'binary' }, (err, resp, body) => {
         let filename = file;
+        let startStat = fs.statSync(filename);
           if (err) {
-              console.log(`${PLUGIN_NAME} error: ${err}`);
+              console.log(`%c${PLUGIN_NAME} error: ${err}`, 'color:red;');
           } else if (resp.statusCode === 200) {
               if (options.rename === true || options.rename === 'true') {
                 filename = (path.dirname(file) + '/' + resp.headers["content-disposition"].split('=').pop().replace(/"/g,''));                 
@@ -37,13 +38,17 @@ const run_opti = async (file, options) =>  {
               } else {
                 filename = filename.replace(path.extname(filename), path.extname(resp.headers["content-disposition"].split('=').pop().replace(/"/g,'')));
               }
+                console.log(`%c${PLUGIN_NAME} processing: ${filename}`, 'color:indigo;');
                 fs.writeFileSync(filename, body, {encoding: 'binary'});
-                console.log(`${PLUGIN_NAME} optimize: ${filename}`);
+                let finalStat = fs.statSync(filename);
+                console.log(`%c${PLUGIN_NAME} compressed: [${startStat.size > 1000000 ? (startStat.size / 1000000).toFixed(2) : (startStat.size / 1000).toFixed(2)} ${startStat.size > 1000000 ? 'Mb' : 'Kb'} =====> ${finalStat.size > 1000000 ? (finalStat.size / 1000000).toFixed(2) : (finalStat.size / 1000).toFixed(2)} ${finalStat.size > 1000000 ? 'Mb' : 'Kb'}], total: ${100 - Math.round(finalStat.size / (startStat.size / 100))}%`, 'color:indigo;');
+                console.log(`%c${PLUGIN_NAME} optimized: ${filename}`, 'color:blue;');
           } else if ( resp.statusCode > 200 ) {
               let str = Buffer.from(body, 'binary').toString();
               let res = {};
               try {
                   res = JSON.parse(str);
+                  console.log(`%c${PLUGIN_NAME} message: ${filename} - ${res.error}`, 'color:yellow;');
               } catch(err) {
                 console.log(`${PLUGIN_NAME} error: ${err}`);
               }
