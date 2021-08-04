@@ -1,4 +1,4 @@
-squeezeimg
+squeezeimg cli
 ==========
 The Squeezeimg-cli is destined to optimize unlimited images without any visible loss in quality.
 Using the Squeezeimg-cli you can easily minify the size of all your images, speed up loading of your websites and applications.
