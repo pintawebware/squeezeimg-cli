@@ -49,7 +49,7 @@ const run_opti = async (file, options) =>  {
               let res = {};
               try {
                   res = JSON.parse(str);
-                  console.log(chalk.yellow(`${PLUGIN_NAME} message: ${filename} - ${res.error}`));
+                  console.log(chalk.yellow(`${PLUGIN_NAME} message: ${filename} - ${res.error.error}`));
               } catch(err) {
                 console.log(chalk.red(`${PLUGIN_NAME} error: ${err}`));
               }
