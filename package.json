@@ -1,6 +1,6 @@
 {
   "name": "@pintawebware/squeezeimg",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "author": "pintawebware",
   "bin": {
     "squeezeimg": "bin/run"
@@ -12,6 +12,7 @@
     "@oclif/command": "^1.8.0",
     "@oclif/config": "^1.17.0",
     "@oclif/plugin-help": "^3.2.2",
+    "chalk": "^2.4.2",
     "request": "^2.88.2"
   },
   "devDependencies": {
