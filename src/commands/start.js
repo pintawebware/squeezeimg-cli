@@ -2,6 +2,7 @@ const fs = require('fs');
 const { Command, flags } = require('@oclif/command');
 const request = require('request');
 const path = require('path');
+const chalk = require('chalk').default;
 
 const PLUGIN_NAME = 'squeezeimg-cli';
 const URL = 'https://api.squeezeimg.com/plugin'; 
@@ -27,7 +28,7 @@ const run_opti = async (file, options) =>  {
         let filename = file;
         let startStat = fs.statSync(filename);
           if (err) {
-              console.log(`%c${PLUGIN_NAME} error: ${err}`, 'color:red;');
+              console.log(chalk.red(`${PLUGIN_NAME} error: ${err}`));
           } else if (resp.statusCode === 200) {
               if (options.rename === true || options.rename === 'true') {
                 filename = (path.dirname(file) + '/' + resp.headers["content-disposition"].split('=').pop().replace(/"/g,''));                 
@@ -36,19 +37,19 @@ const run_opti = async (file, options) =>  {
               } else {
                 filename = filename.replace(path.extname(filename), path.extname(resp.headers["content-disposition"].split('=').pop().replace(/"/g,'')));
               }
-                console.log(`%c${PLUGIN_NAME} processing: ${filename}`, 'color:indigo;');
+                console.log(chalk.blue(`${PLUGIN_NAME} processing: ${filename}`));
                 fs.writeFileSync(filename, body, {encoding: 'binary'});
                 let finalStat = fs.statSync(filename);
-                console.log(`%c${PLUGIN_NAME} compressed: [${startStat.size > 1000000 ? (startStat.size / 1000000).toFixed(2) : (startStat.size / 1000).toFixed(2)} ${startStat.size > 1000000 ? 'Mb' : 'Kb'} =====> ${finalStat.size > 1000000 ? (finalStat.size / 1000000).toFixed(2) : (finalStat.size / 1000).toFixed(2)} ${finalStat.size > 1000000 ? 'Mb' : 'Kb'}], total: ${100 - Math.round(finalStat.size / (startStat.size / 100))}%`, 'color:indigo;');
-                console.log(`%c${PLUGIN_NAME} optimized: ${filename}`, 'color:blue;');
+                console.log(chalk.blue(`${PLUGIN_NAME} compressed: [${startStat.size > 1000000 ? (startStat.size / 1000000).toFixed(2) : (startStat.size / 1000).toFixed(2)} ${startStat.size > 1000000 ? 'Mb' : 'Kb'} =====> ${finalStat.size > 1000000 ? (finalStat.size / 1000000).toFixed(2) : (finalStat.size / 1000).toFixed(2)} ${finalStat.size > 1000000 ? 'Mb' : 'Kb'}], total: ${100 - Math.round(finalStat.size / (startStat.size / 100))}%`));
+                console.log(chalk.blueBright(`${PLUGIN_NAME} optimized: ${filename}`));
           } else if ( resp.statusCode > 200 ) {
               let str = Buffer.from(body, 'binary').toString();
               let res = {};
               try {
                   res = JSON.parse(str);
-                  console.log(`%c${PLUGIN_NAME} message: ${filename} - ${res.error}`, 'color:yellow;');
+                  console.log(chalk.yellow(`${PLUGIN_NAME} message: ${filename} - ${res.error}`));
               } catch(err) {
-                console.log(`${PLUGIN_NAME} error: ${err}`);
+                console.log(chalk.red(`${PLUGIN_NAME} error: ${err}`));
               }
           }
           resolve();
@@ -62,7 +63,7 @@ const run_opti = async (file, options) =>  {
         formData.append('file', data, { filename: file.split('/').pop() });
         formData.append('to', options.to || 'webp');
       } catch(err) {
-        console.log(`${PLUGIN_NAME} error: ${err}`);
+        console.log(chalk.red(`${PLUGIN_NAME} error: ${err}`));
         resolve();
       }
     } else {
