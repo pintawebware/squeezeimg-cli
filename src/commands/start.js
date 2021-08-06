@@ -5,7 +5,7 @@ const path = require('path');
 const chalk = require('chalk').default;
 
 const PLUGIN_NAME = 'squeezeimg-cli';
-const URL = 'http://localhost:3000/plugin'; 
+const URL = 'https://api.squeezeimg.com/plugin'; 
 const EXTENSIONS = ['.jpg','.png','.svg','.jpeg','.jp2','.gif','.tiff','.bmp','.PNG','.JPEG','.GIF','.SVG','.TIFF','.BMP'];
 
 let ERROR_TARIFF = false;
