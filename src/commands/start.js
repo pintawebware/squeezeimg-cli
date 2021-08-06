@@ -5,20 +5,20 @@ const path = require('path');
 const chalk = require('chalk').default;
 
 const PLUGIN_NAME = 'squeezeimg-cli';
-const URL = 'https://api.squeezeimg.com/plugin'; 
+const URL = 'http://localhost:3000/plugin'; 
 const EXTENSIONS = ['.jpg','.png','.svg','.jpeg','.jp2','.gif','.tiff','.bmp','.PNG','.JPEG','.GIF','.SVG','.TIFF','.BMP'];
 
 let ERROR_TARIFF = false;
 
 const startOpti = async (dir, flags) => {
   let files = fs.readdirSync(dir);
-    for (let f of files) {
-      if(fs.lstatSync(`${dir}/${f}`).isDirectory()) {
-        await startOpti(`${dir}/${f}`, flags);
-      } else {
-        await run_opti(`${dir}/${f}`, flags);
-      }
+  for (let f of files) {
+    if(fs.lstatSync(`${dir}/${f}`).isDirectory()) {
+      await startOpti(`${dir}/${f}`, flags);
+    } else {
+      await run_opti(`${dir}/${f}`, flags);
     }
+  }
 }
 
 const run_opti = async (file, options) =>  {
@@ -26,9 +26,9 @@ const run_opti = async (file, options) =>  {
     if (EXTENSIONS.includes(`.${file.split('.').pop()}`)) {
       try {
         let data = fs.readFileSync(file);
-        let req = request.post({ url:URL, encoding: 'binary' }, (err, resp, body) => {
-        let filename = file;
-        let startStat = fs.statSync(filename);
+        let req = request.post({ url:URL, encoding: 'binary', timeout:120000 }, (err, resp, body) => {
+          let filename = file;
+          let startStat = fs.statSync(filename);
           if (err) {
               console.log(chalk.red(`${PLUGIN_NAME} error: ${err}`));
           } else if (resp.statusCode === 200) {
@@ -55,7 +55,7 @@ const run_opti = async (file, options) =>  {
               }
           }
           resolve();
-      });
+        });
         let formData = req.form();
         formData.append('file_name', file.split('/').pop());
         formData.append('qlt', options.qlt || 60);
