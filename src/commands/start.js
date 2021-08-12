@@ -4,9 +4,13 @@ const request = require('request');
 const path = require('path');
 const chalk = require('chalk').default;
 
+const exiftool = require('node-exiftool')
+const exiftoolBin = require('dist-exiftool')
+
 const PLUGIN_NAME = 'squeezeimg-cli';
 const URL = 'https://api.squeezeimg.com/plugin'; 
 const EXTENSIONS = ['.jpg','.png','.svg','.jpeg','.jp2','.gif','.tiff','.bmp','.PNG','.JPEG','.GIF','.SVG','.TIFF','.BMP'];
+
 
 let ERROR_TARIFF = false;
 
@@ -16,7 +20,13 @@ const startOpti = async (dir, flags) => {
     if(fs.lstatSync(`${dir}/${f}`).isDirectory()) {
       await startOpti(`${dir}/${f}`, flags);
     } else {
-      await run_opti(`${dir}/${f}`, flags);
+      if( !await checkMetaData(`${dir}/${f}`, { 
+        App:"Squeezeimg",
+        SIMethod: `${flags.method || 'compress' }`,
+        SIQLT: `${flags.qlt || 60}`
+      })) {
+        await run_opti(`${dir}/${f}`, flags);
+      }
     }
   }
 }
@@ -113,6 +123,33 @@ SQUEEZEIMG.flags = {
     char: 'r',
     default: false,
     description: '[OPTIONAL]\nUSAGE: <$ squeezeimg start -d /your/directory -t YOUR_TOKEN -m convert --to [webp/jp2/avif] --rename [true/false]> \n------>   rename option, returns renamed image but original file stays saved, default false'
+  })
+}
+
+
+const checkMetaData = async (file_path, objReq ) => {
+  return await new Promise(async (resolve) => {
+      const ep = new exiftool.ExiftoolProcess(exiftoolBin)
+      let result = false;
+      await ep
+          .open()
+          .then(async () => { 
+              let arr = [];
+              let {data , error} = await ep.readMetadata(file_path, ['Keywords']);
+              for(let key of Object.keys(objReq)) {
+                  if(!data[0].Keywords || ( key === 'App' && !data[0].Keywords.includes(`${key}:${objReq[key]}`))) {
+                      arr.push(false);
+                      break;
+                  } else if(key !== 'SIVersion' &&  key !== 'App') {
+                      arr.push(data[0].Keywords.includes(`${key}:${objReq[key]}`));
+                  }
+              }
+              result = arr.every((el)=> el)
+              return {data ,error};
+          })
+          .catch(console.error)
+      ep.close()
+      resolve(result)
   })
 }
 
