@@ -26,6 +26,8 @@ const startOpti = async (dir, flags) => {
         SIQLT: `${flags.qlt || 60}`
       })) {
         await run_opti(`${dir}/${f}`, flags);
+      } else {
+        console.log(chalk.yellow(`${PLUGIN_NAME} message: ${f} - This image was processed with this params.`));
       }
     }
   }
@@ -96,12 +98,12 @@ SQUEEZEIMG.flags = {
   help: flags.help(),
   dir: flags.string({
     char: 'd',
-    default: process.cwd(),
+    default: `${process.cwd()}/images`,
     description: '[REQUIRED]\nUSAGE: <$ squeezeimg start -d /your/directory -t YOUR_TOKEN> \n------>   set directory to compress/convert your images, default compress'
   }),
   token: flags.string({
     char: 't',
-    default: '',
+    default: '2GV1XOi8NJroWRlqgeJgAmTQ8NetWUOPFdSJ3zX',
     description: '[REQUIRED]\nUSAGE: <$ squeezeimg start -d /your/directory -t YOUR_TOKEN> \n------>   token you need to start process, find it here https://squeezeimg.com/account/api'
   }),
   qlt: flags.string({
