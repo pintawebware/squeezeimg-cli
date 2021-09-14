@@ -17,7 +17,7 @@ First install Node.js and npm. You can do it [here](https://nodejs.org/en/downlo
 ```sh-session
 $ npm install -g @pintawebware/squeezeimg
 $ squeezeimg (-v|--version|version)
-@pintawebware/squeezeimg/0.0.18 linux-x64 node-v14.16.0
+@pintawebware/squeezeimg/0.0.28 linux-x64 node-v14.16.0
 $ squeezeimg (help|--help)
 $ squeezeimg (help|--help) start
 USAGE
@@ -60,23 +60,27 @@ USAGE
 
 
 OPTIONS
-  -d, --dir=dir        [default: installed folder]
-                       [example: /your/directory/Pictures]
+  -d, --dir=dir                 [default: installed folder]
+                                [example: /your/directory/Pictures]
 
-  -t, --token=token    [example: qWe123rTy456uPi789] - Required
+  -t, --token=token             [example: qWe123rTy456uPi789] - Required
 
-  -m, --method=method  [default: compress]
-                       [example: convert]
+  -p, --processes=processes     [default: 5]
+                                [example: 10]
+                                [max: 50]
 
-  -q, --qlt=qlt        [default: 60]
-                       [example: 80]
+  -m, --method=method           [default: compress]
+                                [example: convert]
 
-  -r, --rename=rename  [default: false]
-                       [example: true]
+  -q, --qlt=qlt                 [default: 60]
+                                [example: 80]
 
-  --to, --to=to        [default: webp]
-                       [example: jp2]
-                       [example: avif]
+  -r, --rename=rename           [default: false]
+                                [example: true]
+
+  --to, --to=to                 [default: webp]
+                                [example: jp2]
+                                [example: avif]
 
   --help               show CLI help
   --version            show CLI version
