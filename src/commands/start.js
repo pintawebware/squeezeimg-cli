@@ -16,16 +16,22 @@ let ERROR_TARIFF = false;
 
 const startOpti = async (dir, flags) => {
   let files = fs.readdirSync(dir);
+  let arr_procc = [];
   for (let f of files) {
-    if(fs.lstatSync(`${dir}/${f}`).isDirectory()) {
+    if (fs.lstatSync(`${dir}/${f}`).isDirectory()) {
       await startOpti(`${dir}/${f}`, flags);
     } else {
-      if( !await checkMetaData(`${dir}/${f}`, { 
+      if (!await checkMetaData(`${dir}/${f}`, { 
         App:"Squeezeimg",
         SIMethod: `${flags.method || 'compress' }`,
         SIQLT: `${flags.qlt || 60}`
       })) {
-        await run_opti(`${dir}/${f}`, flags);
+        arr_procc.push(run_opti(`${dir}/${f}`, flags));
+        if (flags.processes > 50) flags.processes = 50;
+        if (arr_procc.length === flags.processes || files.length < 5) {
+          await Promise.all(arr_procc);
+          arr_procc = [];
+        }
       } else {
         console.log(chalk.yellow(`${PLUGIN_NAME} message: ${f} - This image was processed with this params.`));
       }
@@ -38,7 +44,7 @@ const run_opti = async (file, options) =>  {
     if (EXTENSIONS.includes(`.${file.split('.').pop()}`)) {
       try {
         let data = fs.readFileSync(file);
-        let req = request.post({ url:URL, encoding: 'binary', timeout:120000 }, (err, resp, body) => {
+        let req = request.post({ url: URL, encoding: 'binary', timeout: 120000 }, (err, resp, body) => {
           let filename = file;
           let startStat = fs.statSync(filename);
           if (err) {
@@ -46,7 +52,7 @@ const run_opti = async (file, options) =>  {
           } else if (resp.statusCode === 200) {
               if (options.rename === true || options.rename === 'true') {
                 filename = (path.dirname(file) + '/' + resp.headers["content-disposition"].split('=').pop().replace(/"/g,''));                 
-              } else if(fs.existsSync(filename.replace(path.extname(filename), path.extname(resp.headers["content-disposition"].split('=').pop().replace(/"/g,'')))) && options.method === 'convert') {
+              } else if (fs.existsSync(filename.replace(path.extname(filename), path.extname(resp.headers["content-disposition"].split('=').pop().replace(/"/g,'')))) && options.method === 'convert') {
                 filename = (path.dirname(file) + '/' + path.parse(filename).base + path.extname(resp.headers["content-disposition"].split('=').pop().replace(/"/g,'')));
               } else {
                 filename = filename.replace(path.extname(filename), path.extname(resp.headers["content-disposition"].split('=').pop().replace(/"/g,'')));
@@ -56,13 +62,17 @@ const run_opti = async (file, options) =>  {
                 let finalStat = fs.statSync(filename);
                 console.log(chalk.blue(`${PLUGIN_NAME} compressed: [${startStat.size > 1000000 ? (startStat.size / 1000000).toFixed(2) : (startStat.size / 1000).toFixed(2)} ${startStat.size > 1000000 ? 'Mb' : 'Kb'} =====> ${finalStat.size > 1000000 ? (finalStat.size / 1000000).toFixed(2) : (finalStat.size / 1000).toFixed(2)} ${finalStat.size > 1000000 ? 'Mb' : 'Kb'}], total: ${100 - Math.round(finalStat.size / (startStat.size / 100))}%`));
                 console.log(chalk.blueBright(`${PLUGIN_NAME} optimized: ${filename}`));
-          } else if ( resp.statusCode > 200 ) {
+          } else if (resp.statusCode > 200) {
               let str = Buffer.from(body, 'binary').toString();
               let res = {};
               try {
-                  res = JSON.parse(str);
-                  console.log(chalk.yellow(`${PLUGIN_NAME} message: ${filename} - ${res.error.error}`));
-              } catch(err) {
+                if (str.includes('<')) {
+                  res = { success: false, error: 'Time out' }
+                } else {
+                    res = JSON.parse(str);
+                }
+                console.log(chalk.yellow(`${PLUGIN_NAME} message: ${filename} - ${res.error.error ? res.error.error : res.success === Boolean(false) ? res.error : res}`));
+              } catch (err) {
                 console.log(chalk.red(`${PLUGIN_NAME} error: ${err}`));
               }
           }
@@ -76,7 +86,7 @@ const run_opti = async (file, options) =>  {
         formData.append('method', options.method || 'compress');
         formData.append('file', data, { filename: file.split('/').pop() });
         formData.append('to', options.to || 'webp');
-      } catch(err) {
+      } catch (err) {
         console.log(chalk.red(`${PLUGIN_NAME} error: ${err}`));
         resolve();
       }
@@ -88,7 +98,7 @@ const run_opti = async (file, options) =>  {
 
 class SQUEEZEIMG extends Command {
   async run() {
-    const {flags} = this.parse(SQUEEZEIMG);
+    const { flags } = this.parse(SQUEEZEIMG);
     await startOpti(flags.dir, flags);
   }
 }
@@ -105,6 +115,11 @@ SQUEEZEIMG.flags = {
     char: 't',
     default: '',
     description: '[REQUIRED]\nUSAGE: <$ squeezeimg start -d /your/directory -t YOUR_TOKEN> \n------>   token you need to start process, find it here https://squeezeimg.com/account/api'
+  }),
+  processes: flags.string({
+    char: 'p',
+    default: 5,
+    description: '[REQUIRED]\nUSAGE: <$ squeezeimg start -d /your/directory -t YOUR_TOKEN> -p 10 \n------>   number of work processes, default 5, max 50'
   }),
   qlt: flags.string({
     char: 'q',
@@ -129,25 +144,25 @@ SQUEEZEIMG.flags = {
 }
 
 
-const checkMetaData = async (file_path, objReq ) => {
+const checkMetaData = async (file_path, objReq) => {
   return await new Promise(async (resolve) => {
-      const ep = new exiftool.ExiftoolProcess(exiftoolBin)
+      const ep = new exiftool.ExiftoolProcess(exiftoolBin);
       let result = false;
       await ep
           .open()
           .then(async () => { 
               let arr = [];
-              let {data , error} = await ep.readMetadata(file_path, ['Keywords']);
-              for(let key of Object.keys(objReq)) {
-                  if(!data[0].Keywords || ( key === 'App' && !data[0].Keywords.includes(`${key}:${objReq[key]}`))) {
+              let { data, error } = await ep.readMetadata(file_path, ['Keywords']);
+              for (let key of Object.keys(objReq)) {
+                  if (!data[0].Keywords || (key === 'App' && !data[0].Keywords.includes(`${key}:${objReq[key]}`))) {
                       arr.push(false);
                       break;
-                  } else if(key !== 'SIVersion' &&  key !== 'App') {
+                  } else if (key !== 'SIVersion' && key !== 'App') {
                       arr.push(data[0].Keywords.includes(`${key}:${objReq[key]}`));
                   }
               }
-              result = arr.every((el)=> el)
-              return {data ,error};
+              result = arr.every((el) => el);
+              return { data, error };
           })
           .catch(console.error)
       ep.close()
